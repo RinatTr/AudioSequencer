@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Slider } from './Slider.js';
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -7,6 +7,7 @@ class WaveMenu extends Component {
       type: "sine",
       freq: 440,
       on: false,
+      start: false,
       osc: "",
       ctx: ""
     }
@@ -16,21 +17,27 @@ class WaveMenu extends Component {
     let { type, freq } = this.state;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
     const osc = audioCtx.createOscillator();
+
     osc.type = type;
     osc.frequency.value = freq;
-    osc.start()
+    osc.connect(audioCtx.destination);
+
     this.setState({ ctx: audioCtx,
                     osc: osc })
   }
   toggleOnOff = (e) => {
-    let { osc, ctx, on } = this.state;
+    let { osc, ctx, on, start } = this.state;
+    if (!start) {
+      osc.start();
+    };
     if (!on) {
-      osc.connect(ctx.destination)
+      ctx.resume();
       this.setState({
-        on: true
+        on: true,
+        start: true
       })
     } else {
-      osc.disconnect(ctx.destination)
+      ctx.suspend();
       this.setState({
         on: false
       })
