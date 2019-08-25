@@ -5,6 +5,7 @@ class WaveMenu extends Component {
     super()
     this.state = {
       type: "sine",
+      freq: 440,
       on: false,
       osc: "",
       ctx: ""
@@ -12,22 +13,14 @@ class WaveMenu extends Component {
   }
 
   componentDidMount() {
+    let { type, freq } = this.state;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-    console.log(audioCtx)
     const osc = audioCtx.createOscillator();
-    osc.type = this.state.type;
-    osc.frequency.value = 440;
+    osc.type = type;
+    osc.frequency.value = freq;
     osc.start()
-    // osc.connect(audioCtx.destination);
     this.setState({ ctx: audioCtx,
                     osc: osc })
-    // this.state.osc.type = 'triangle' // triangle, sine, sawtooth. there are also custom waveforms.
-    // this.state.osc.frequency.value = 440 //hz
-
-    // this.state.osc.connect(audioCtx.destination) //connect to another node - destination of AudioContext (output - speakers etc.)
-    // osc.start()
-
-    // audioCtx.resume()
   }
   toggleOnOff = (e) => {
     let { osc, ctx, on } = this.state;
@@ -45,8 +38,7 @@ class WaveMenu extends Component {
   }
 
   toggleType = (e) => {
-    let { osc } = this.state;
-    osc.type = e.target.id;
+    this.state.osc.type = e.target.id;
     this.setState({
       type: e.target.id
     })
