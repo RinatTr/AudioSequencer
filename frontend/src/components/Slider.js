@@ -8,7 +8,7 @@ const Slider = ({value, handleChange}) => {
       <input
         type="range"
         min="220"
-        max="800"
+        max="600"
         value={value}
         onChange={handleChange}
         id="frequency" />

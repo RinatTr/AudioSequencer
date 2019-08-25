@@ -16,9 +16,11 @@ class WaveMenu extends Component {
     let { type, freq } = this.state;
     let context = new (window.AudioContext || window.webkitAudioContext)()
     this.osc = context.createOscillator();
+    this.gain = context.createGain();
     this.osc.type = type;
     this.osc.frequency.value = freq;
-    this.osc.connect(context.destination);
+    this.osc.connect(this.gain);
+    this.gain.connect(context.destination);
     this.setState({
       context
     })
@@ -29,13 +31,13 @@ class WaveMenu extends Component {
       this.osc.start();
     };
     if (!on) {
-      this.osc.connect(context.destination);
+      this.gain.connect(context.destination);
       this.setState({
         on: true,
         start: true
       })
     } else {
-      this.osc.disconnect(context.destination);
+      this.gain.disconnect(context.destination);
       this.setState({
         on: false
       })
@@ -52,12 +54,13 @@ class WaveMenu extends Component {
   handleFrequency = (e) => {
     this.osc.frequency.value = e.target.value;
     this.setState({
-      freq: e.target.value,
+      freq: e.target.value
     })
   }
 
   render() {
     let { on, freq } = this.state;
+    console.log(this.osc, this.state)
     return (
       <>
       <div className="controller-wrapper">
