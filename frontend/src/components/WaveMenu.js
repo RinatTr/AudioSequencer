@@ -64,7 +64,7 @@ class WaveMenu extends Component {
         <button onClick={this.toggleOnOff}>{on ? "on" : "off"}</button>
       </div>
       <div className="slide-wrapper">
-        <Slider handleFrequency={this.handleFrequency} value={freq}/>
+        <Slider handleChange={this.handleFrequency} value={freq}/>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>

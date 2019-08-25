@@ -2,15 +2,15 @@
 
 import React from 'react';
 
-const Slider = ({freq, handleFrequency}) => {
+const Slider = ({value, handleChange}) => {
   return (
     <div className="slide-container">
       <input
         type="range"
         min="220"
         max="800"
-        value={freq}
-        onChange={handleFrequency}
+        value={value}
+        onChange={handleChange}
         id="frequency" />
     </div>
   )
