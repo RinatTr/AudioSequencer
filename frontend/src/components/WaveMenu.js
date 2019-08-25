@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Slider } from './Slider.js';
+import Slider from './Slider.js';
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -8,36 +8,34 @@ class WaveMenu extends Component {
       freq: 440,
       on: false,
       start: false,
-      osc: "",
-      ctx: ""
+      context: ""
     }
   }
 
   componentDidMount() {
     let { type, freq } = this.state;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-    const osc = audioCtx.createOscillator();
-
-    osc.type = type;
-    osc.frequency.value = freq;
-    osc.connect(audioCtx.destination);
-
-    this.setState({ ctx: audioCtx,
-                    osc: osc })
+    let context = new (window.AudioContext || window.webkitAudioContext)()
+    this.osc = context.createOscillator();
+    this.osc.type = type;
+    this.osc.frequency.value = freq;
+    this.osc.connect(context.destination);
+    this.setState({
+      context
+    })
   }
   toggleOnOff = (e) => {
-    let { osc, ctx, on, start } = this.state;
+    let { on, start, context } = this.state;
     if (!start) {
-      osc.start();
+      this.osc.start();
     };
     if (!on) {
-      ctx.resume();
+      this.osc.connect(context.destination);
       this.setState({
         on: true,
         start: true
       })
     } else {
-      ctx.suspend();
+      this.osc.disconnect(context.destination);
       this.setState({
         on: false
       })
@@ -45,18 +43,28 @@ class WaveMenu extends Component {
   }
 
   toggleType = (e) => {
-    this.state.osc.type = e.target.id;
+    this.osc.type = e.target.id;
     this.setState({
       type: e.target.id
     })
   }
 
+  handleFrequency = (e) => {
+    this.osc.frequency.value = e.target.value;
+    this.setState({
+      freq: e.target.value,
+    })
+  }
+
   render() {
-    let { on } = this.state;
+    let { on, freq } = this.state;
     return (
       <>
       <div className="controller-wrapper">
-        <button onClick={this.toggleOnOff}>{on ? "off" : "on"}</button>
+        <button onClick={this.toggleOnOff}>{on ? "on" : "off"}</button>
+      </div>
+      <div className="slide-wrapper">
+        <Slider handleFrequency={this.handleFrequency} value={freq}/>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>
