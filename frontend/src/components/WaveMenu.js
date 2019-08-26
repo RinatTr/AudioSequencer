@@ -29,7 +29,8 @@ class WaveMenu extends Component {
     })
   }
   toggleOnOff = (e) => {
-    let { on, start, context } = this.state;
+    let { on, start, context, interval } = this.state;
+    if (interval) { clearInterval(interval) }
     if (!start) {
       this.osc.start();
     };
@@ -72,27 +73,22 @@ class WaveMenu extends Component {
   }
 
   handleClip = (e) => {
-    let { clip_rate, context, interval } = this.state;
-    let newRate = e.target.value * 10;
-    console.log(newRate)
+    let { context, interval } = this.state;
+    let newRate = e.target.value * 2;
+
     if (interval) { clearInterval(interval) }
     const connect = () => {
       this.gain.connect(context.destination)
-      console.log("connect");
     }
     const clip = () => {
       this.gain.disconnect(context.destination);
-      console.log("disconnect", clip_rate)
-      setTimeout(connect, clip_rate)
+      setTimeout(connect, newRate)
     }
 
-    let startInterval = setInterval(clip, clip_rate * 2)
-    this.setState({
-      interval: startInterval
-    })
+    let startInterval = setInterval(clip, newRate * 2)
     this.setState({
       interval: startInterval,
-      clip_rate: newRate
+      clip_rate: newRate / 2
     })
 
   }
@@ -124,7 +120,7 @@ class WaveMenu extends Component {
         <Slider
           handleChange={this.handleClip}
           value={clip_rate}
-          min="0"
+          min="1"
           max="100"
         />
       </div>
