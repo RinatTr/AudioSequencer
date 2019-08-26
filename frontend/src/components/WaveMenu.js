@@ -7,9 +7,11 @@ class WaveMenu extends Component {
       type: "sine",
       freq: 440,
       gain: 0.5,
+      clip_rate: 500,
       on: false,
       start: false,
-      context: ""
+      context: "",
+      interval: ""
     }
   }
 
@@ -69,8 +71,34 @@ class WaveMenu extends Component {
     })
   }
 
+  handleClip = (e) => {
+    let { clip_rate, context, interval } = this.state;
+    let newRate = e.target.value * 10;
+    console.log(newRate)
+    if (interval) { clearInterval(interval) }
+    const connect = () => {
+      this.gain.connect(context.destination)
+      console.log("connect");
+    }
+    const clip = () => {
+      this.gain.disconnect(context.destination);
+      console.log("disconnect", clip_rate)
+      setTimeout(connect, clip_rate)
+    }
+
+    let startInterval = setInterval(clip, clip_rate * 2)
+    this.setState({
+      interval: startInterval
+    })
+    this.setState({
+      interval: startInterval,
+      clip_rate: newRate
+    })
+
+  }
+
   render() {
-    let { on, freq, gain } = this.state;
+    let { on, freq, gain, clip_rate } = this.state;
 
     return (
       <>
@@ -78,15 +106,24 @@ class WaveMenu extends Component {
         <button onClick={this.toggleOnOff}>{on ? "on" : "off"}</button>
       </div>
       <div className="slide-wrapper">
+        Frequency {freq}
         <Slider
           handleChange={this.handleFrequency}
           value={freq}
           min="220"
           max="600"
         />
+        Gain {gain}
         <Slider
           handleChange={this.handleGain}
           value={gain}
+          min="0"
+          max="100"
+        />
+        Clipper
+        <Slider
+          handleChange={this.handleClip}
+          value={clip_rate}
           min="0"
           max="100"
         />
