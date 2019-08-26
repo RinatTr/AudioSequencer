@@ -60,9 +60,10 @@ class WaveMenu extends Component {
   }
 
   handleGain = (e) => {
-    console.log(parseFloat(e.target.value/600).toFixed(2));
-
-    this.gain.gain.value = parseInt(e.target.value/600);
+    let fraction = parseInt(e.target.value) / 100;
+    // use an x*x curve (x-squared) since simple linear (x) does not
+    // sound as good.
+    this.gain.gain.value = fraction * fraction;
     this.setState({
       gain: e.target.value
     })
@@ -77,8 +78,18 @@ class WaveMenu extends Component {
         <button onClick={this.toggleOnOff}>{on ? "on" : "off"}</button>
       </div>
       <div className="slide-wrapper">
-        <Slider handleChange={this.handleFrequency} value={freq}/>
-        <Slider handleChange={this.handleGain} value={gain}/>
+        <Slider
+          handleChange={this.handleFrequency}
+          value={freq}
+          min="220"
+          max="600"
+        />
+        <Slider
+          handleChange={this.handleGain}
+          value={gain}
+          min="0"
+          max="100"
+        />
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>
