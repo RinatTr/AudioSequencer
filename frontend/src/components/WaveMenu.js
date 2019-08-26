@@ -6,6 +6,7 @@ class WaveMenu extends Component {
     this.state = {
       type: "sine",
       freq: 440,
+      gain: 0.5,
       on: false,
       start: false,
       context: ""
@@ -58,9 +59,18 @@ class WaveMenu extends Component {
     })
   }
 
+  handleGain = (e) => {
+    console.log(parseFloat(e.target.value/600).toFixed(2));
+
+    this.gain.gain.value = parseInt(e.target.value/600);
+    this.setState({
+      gain: e.target.value
+    })
+  }
+
   render() {
-    let { on, freq } = this.state;
-    console.log(this.osc, this.state)
+    let { on, freq, gain } = this.state;
+
     return (
       <>
       <div className="controller-wrapper">
@@ -68,6 +78,7 @@ class WaveMenu extends Component {
       </div>
       <div className="slide-wrapper">
         <Slider handleChange={this.handleFrequency} value={freq}/>
+        <Slider handleChange={this.handleGain} value={gain}/>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>

@@ -7,7 +7,7 @@ const Slider = ({value, handleChange}) => {
     <div className="slide-container">
       <input
         type="range"
-        min="220"
+        min="1"
         max="600"
         value={value}
         onChange={handleChange}
