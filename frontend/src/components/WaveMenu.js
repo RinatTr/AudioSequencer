@@ -6,7 +6,7 @@ class WaveMenu extends Component {
     this.state = {
       type: "sine",
       freq: 440,
-      gain: 0.5,
+      gain: 1,
       clip_rate: 500,
       on: false,
       start: false,
@@ -18,33 +18,46 @@ class WaveMenu extends Component {
   componentDidMount() {
     let { type, freq } = this.state;
     let context = new (window.AudioContext || window.webkitAudioContext)()
+    // first octave
     this.osc = context.createOscillator();
     this.gain = context.createGain();
     this.osc.type = type;
     this.osc.frequency.value = freq;
     this.osc.connect(this.gain);
     this.gain.connect(context.destination);
+    // double octave
+    this.osc2 = context.createOscillator();
+    this.gain2 = context.createGain();
+    this.osc2.type = type;
+    this.osc2.frequency.value = freq/2;
+    this.osc2.connect(this.gain2);
+    this.gain2.connect(context.destination);
     this.setState({
       context
     })
   }
   toggleOnOff = (e) => {
     let { on, start, context, interval } = this.state;
-    if (interval) { clearInterval(interval) }
-    if (!start) {
-      this.osc.start();
-    };
-    if (!on) {
-      this.gain.connect(context.destination);
-      this.setState({
-        on: true,
-        start: true
-      })
-    } else {
-      this.gain.disconnect(context.destination);
-      this.setState({
-        on: false
-      })
+    if (e.key === "o") {
+      if (interval) { clearInterval(interval) }
+      if (!start) {
+        this.osc.start();
+        this.osc2.start();
+      };
+      if (!on) {
+        this.gain.connect(context.destination);
+        this.gain2.connect(context.destination);
+        this.setState({
+          on: true,
+          start: true
+        })
+      } else {
+        this.gain.disconnect(context.destination);
+        this.gain2.disconnect(context.destination);
+        this.setState({
+          on: false
+        })
+      }
     }
   }
 
@@ -57,6 +70,7 @@ class WaveMenu extends Component {
 
   handleFrequency = (e) => {
     this.osc.frequency.value = e.target.value;
+    this.osc2.frequency.value = e.target.value/2;
     this.setState({
       freq: e.target.value
     })
@@ -67,6 +81,7 @@ class WaveMenu extends Component {
     // use an x*x curve (x-squared) since simple linear (x) does not
     // sound as good.
     this.gain.gain.value = fraction * fraction;
+    this.gain2.gain.value = fraction * fraction;
     this.setState({
       gain: e.target.value
     })
@@ -99,14 +114,16 @@ class WaveMenu extends Component {
     return (
       <>
       <div className="controller-wrapper">
-        <button onClick={this.toggleOnOff}>{on ? "on" : "off"}</button>
+        <button
+          onKeyDown={this.toggleOnOff}
+        >{on ? "on" : "off"}</button>
       </div>
       <div className="slide-wrapper">
         Frequency {freq}
         <Slider
           handleChange={this.handleFrequency}
           value={freq}
-          min="220"
+          min="100"
           max="600"
         />
         Gain {gain}
@@ -120,8 +137,9 @@ class WaveMenu extends Component {
         <Slider
           handleChange={this.handleClip}
           value={clip_rate}
-          min="1"
+          min="5"
           max="100"
+          step="10"
         />
       </div>
       <div className="wavetype-buttons-wrapper">

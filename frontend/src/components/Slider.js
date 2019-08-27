@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const Slider = ({value, min, max, handleChange}) => {
+const Slider = ({value, min, max, handleChange, step = "1"}) => {
   return (
     <div className="slide-container">
       <input
@@ -11,7 +11,8 @@ const Slider = ({value, min, max, handleChange}) => {
         max={max}
         value={value}
         onChange={handleChange}
-        id="frequency" />
+        id="frequency"
+        step={step} />
     </div>
   )
 }
