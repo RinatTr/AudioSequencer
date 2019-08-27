@@ -38,7 +38,7 @@ class WaveMenu extends Component {
   }
   toggleOnOff = (e) => {
     let { on, start, context, interval } = this.state;
-    if (e.key === "o") {
+    if (e.key === "o" || e.target.id === "on-off") {
       if (interval) { clearInterval(interval) }
       if (!start) {
         this.osc.start();
@@ -63,6 +63,7 @@ class WaveMenu extends Component {
 
   toggleType = (e) => {
     this.osc.type = e.target.id;
+    this.osc2.type = e.target.id;
     this.setState({
       type: e.target.id
     })
@@ -115,7 +116,9 @@ class WaveMenu extends Component {
       <>
       <div className="controller-wrapper">
         <button
+          id="on-off"
           onKeyDown={this.toggleOnOff}
+          onClick={this.toggleOnOff}
         >{on ? "on" : "off"}</button>
       </div>
       <div className="slide-wrapper">
