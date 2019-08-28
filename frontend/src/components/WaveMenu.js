@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from './Slider.js';
+import Controller from './Controller.js';
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -121,6 +122,7 @@ class WaveMenu extends Component {
           onClick={this.toggleOnOff}
         >{on ? "on" : "off"}</button>
       </div>
+      <Controller />
       <div className="slide-wrapper">
         Frequency {freq}
         <Slider
