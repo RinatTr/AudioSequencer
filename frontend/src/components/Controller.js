@@ -10,7 +10,6 @@ class Controller extends Component {
   componentDidMount() {
       const canvas = this.canvasRef.current;
       const ctx = canvas.getContext("2d");
-      console.log(ctx);
   }
   render() {
       return(
