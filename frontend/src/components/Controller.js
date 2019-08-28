@@ -10,11 +10,12 @@ class Controller extends Component {
   componentDidMount() {
       const canvas = this.canvasRef.current;
       const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#6C6C6C;"
   }
   render() {
       return(
         <div>
-          <canvas ref={this.canvasRef} width={100} height={100} />
+          <canvas id="controller-canvas" ref={this.canvasRef} width={100} height={100} />
         </div>
       )
     }
