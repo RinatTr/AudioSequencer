@@ -1,0 +1,19 @@
+{
+  "name": "audiosequencer",
+  "version": "1.0.0",
+  "description": "Simple audio sequencer built with React and Web Audio API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RinatTr/AudioSequencer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RinatTr/AudioSequencer/issues"
+  },
+  "homepage": "https://github.com/RinatTr/AudioSequencer#readme"
+}
