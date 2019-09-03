@@ -19,9 +19,9 @@ class Controller extends Component {
       ctx.stroke();
   }
 
-  startDrag = (e) => {
+  toggleDrag = (e) => {
     this.setState({
-      dragging: true
+      dragging: !this.state.dragging
     })
   }
 
@@ -31,18 +31,12 @@ class Controller extends Component {
     }
   }
 
-  endDrag = () => {
-    this.setState({
-      dragging: false
-    })
-  }
-
   render() {
       return(
         <div className="canvas-wrapper"
-          onMouseDown={this.startDrag}
+          onMouseDown={this.toggleDrag}
           onMouseMove={this.handleDrag}
-          onMouseUp={this.endDrag}
+          onMouseUp={this.toggleDrag}
           >
           <canvas id="controller-canvas" ref={this.canvasRef} width={200} height={200} />
         </div>
