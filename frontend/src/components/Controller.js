@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import '../css/Controller.css';
-// figure out refs
+
 class Controller extends Component {
   constructor(){
     super()
     this.canvasRef = React.createRef();
     this.state = {
-      dragging: false
+      dragging: false,
+      ctx: ""
      }
   }
 
   componentDidMount() {
-      const canvas = this.canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#6C6C6C;"
-      ctx.beginPath();
-      ctx.arc(50, 50, 10, 0, 2 * Math.PI); //x,y,r, startAngle, endAngle
-      ctx.stroke();
+      this.canvas = this.canvasRef.current;
+      this.ctx = this.canvas.getContext("2d");
+      this.ctx.fillStyle = "#6C6C6C;"
+      this.ctx.beginPath();
+      this.ctx.arc(50, 50, 10, 0, 2 * Math.PI); //x,y,r, startAngle, endAngle
+      this.ctx.stroke();
   }
 
   toggleDrag = (e) => {
@@ -27,7 +28,7 @@ class Controller extends Component {
 
   handleDrag = (e) => {
     if (this.state.dragging) {
-      console.log(e.clientX, e.clientY)
+      console.log(e.clientX, e.clientY - 22)
     }
   }
 
