@@ -1,5 +1,15 @@
-div.canvas-wrapper {
+div.drag-area {
   border: 1px black solid;
   width: 200px;
   height: 200px;
+}
+
+div.drag-circle {
+  position: relative;
+  z-index: 2;
+  border: 1px black solid;
+  border-radius: 50%;
+  background-color: red;
+  width: 10px;
+  height: 10px;
 }

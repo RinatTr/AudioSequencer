@@ -4,20 +4,11 @@ import '../css/Controller.css';
 class Controller extends Component {
   constructor(){
     super()
-    this.canvasRef = React.createRef();
     this.state = {
       dragging: false,
-      ctx: ""
+      x_pos: 0,
+      y_pos: 0
      }
-  }
-
-  componentDidMount() {
-      this.canvas = this.canvasRef.current;
-      this.ctx = this.canvas.getContext("2d");
-      this.ctx.fillStyle = "#6C6C6C;"
-      this.ctx.beginPath();
-      this.ctx.arc(50, 50, 10, 0, 2 * Math.PI); //x,y,r, startAngle, endAngle
-      this.ctx.stroke();
   }
 
   toggleDrag = (e) => {
@@ -28,18 +19,28 @@ class Controller extends Component {
 
   handleDrag = (e) => {
     if (this.state.dragging) {
+      //adapt to offset at div height
       console.log(e.clientX, e.clientY - 22)
+      this.setState({
+        x_pos: e.clientX,
+        y_pos: e.clientY - 22
+      })
     }
   }
 
   render() {
+    let divStyle = {
+      left: Math.min(this.state.x_pos / 2, 94) + "%",
+      top: Math.min(this.state.y_pos / 2, 94) + "%"
+    }
       return(
-        <div className="canvas-wrapper"
-          onMouseDown={this.toggleDrag}
-          onMouseMove={this.handleDrag}
-          onMouseUp={this.toggleDrag}
-          >
-          <canvas id="controller-canvas" ref={this.canvasRef} width={200} height={200} />
+        <div  className="drag-area"
+              onMouseMove={this.handleDrag}
+              onMouseUp={this.toggleDrag} >
+          <div className="drag-circle"
+               onMouseDown={this.toggleDrag}
+               style={divStyle}>
+          </div>
         </div>
       )
     }
