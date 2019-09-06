@@ -10,3 +10,10 @@ export const initGain = (context, osc) => {
     gain.connect(context.destination);
     return gain;
 }
+
+export const valueToFraction = (value) => {
+  // use an x*x curve (x-squared) since simple linear (x) does not
+  // sound as good.
+  return (parseInt(value) / 100) ** 2;
+
+}

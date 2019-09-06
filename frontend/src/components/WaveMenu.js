@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from './Slider.js';
 import Controller from './Controller.js';
-import { initOsc, initGain } from '../module/helper.js';
+import { initOsc, initGain, valueToFraction } from '../module/helper.js';
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -9,7 +9,6 @@ class WaveMenu extends Component {
       type: "sine",
       freq: 440,
       gain: 1,
-      gain_fraction: 0,
       clip_rate: 500,
       on: false,
       start: false,
@@ -73,25 +72,22 @@ class WaveMenu extends Component {
   }
 
   handleGain = (e) => {
-    // use an x*x curve (x-squared) since simple linear (x) does not
-    // sound as good.
-    let fraction = (parseInt(e.target.value) / 100) ** 2;
-    this.gain.gain.value = fraction * fraction;
-    this.gain2.gain.value = fraction * fraction;
+    let fraction = valueToFraction(e.target.value)
+    this.gain.gain.value = fraction;
+    this.gain2.gain.value = fraction;
     this.setState({
-      gain: e.target.value,
-      gain_fraction: fraction * fraction
+      gain: e.target.value
     })
   }
 
   handleClip = (e) => {
-    let { interval, gain_fraction } = this.state;
+    let { interval } = this.state;
     let newRate = e.target.value * 2;
 
     if (interval) { clearInterval(interval) }
     const connect = () => {
-      this.gain.gain.value = gain_fraction;
-      this.gain2.gain.value = gain_fraction;
+      this.gain.gain.value = valueToFraction(this.state.gain);
+      this.gain2.gain.value = valueToFraction(this.state.gain);
     }
     const clip = () => {
       this.gain.gain.value = 0;
@@ -109,7 +105,6 @@ class WaveMenu extends Component {
 
   render() {
     let { on, freq, gain, clip_rate } = this.state;
-
     return (
       <>
       <div className="controller-wrapper">
@@ -140,7 +135,7 @@ class WaveMenu extends Component {
           handleChange={this.handleClip}
           value={clip_rate}
           min="5"
-          max="100"
+          max="105"
           step="10"
         />
       </div>
