@@ -8,6 +8,7 @@ class WaveMenu extends Component {
       type: "sine",
       freq: 440,
       gain: 1,
+      gain_fraction: 0,
       clip_rate: 500,
       on: false,
       start: false,
@@ -79,26 +80,29 @@ class WaveMenu extends Component {
   }
 
   handleGain = (e) => {
-    let fraction = parseInt(e.target.value) / 100;
     // use an x*x curve (x-squared) since simple linear (x) does not
     // sound as good.
+    let fraction = (parseInt(e.target.value) / 100) ** 2;
     this.gain.gain.value = fraction * fraction;
     this.gain2.gain.value = fraction * fraction;
     this.setState({
-      gain: e.target.value
+      gain: e.target.value,
+      gain_fraction: fraction * fraction
     })
   }
 
   handleClip = (e) => {
-    let { context, interval } = this.state;
+    let { context, interval, gain_fraction } = this.state;
     let newRate = e.target.value * 2;
 
     if (interval) { clearInterval(interval) }
     const connect = () => {
-      this.gain.connect(context.destination)
+      this.gain.gain.value = gain_fraction;
+      this.gain2.gain.value = gain_fraction;
     }
     const clip = () => {
-      this.gain.disconnect(context.destination);
+      this.gain.gain.value = 0;
+      this.gain2.gain.value = 0;
       setTimeout(connect, newRate)
     }
 
