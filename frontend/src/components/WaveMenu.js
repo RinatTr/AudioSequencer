@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Slider from './Slider.js';
 import Controller from './Controller.js';
+import { initOsc, initGain } from '../module/helper.js';
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -21,19 +22,11 @@ class WaveMenu extends Component {
     let { type, freq } = this.state;
     let context = new (window.AudioContext || window.webkitAudioContext)()
     // first octave
-    this.osc = context.createOscillator();
-    this.gain = context.createGain();
-    this.osc.type = type;
-    this.osc.frequency.value = freq;
-    this.osc.connect(this.gain);
-    this.gain.connect(context.destination);
+    this.osc = initOsc(context, type, freq)
+    this.gain = initGain(context, this.osc)
     // double octave
-    this.osc2 = context.createOscillator();
-    this.gain2 = context.createGain();
-    this.osc2.type = type;
-    this.osc2.frequency.value = freq/2;
-    this.osc2.connect(this.gain2);
-    this.gain2.connect(context.destination);
+    this.osc2 = initOsc(context, type, freq / 2)
+    this.gain2 = initGain(context, this.osc2)
     this.setState({
       context
     })
@@ -92,7 +85,7 @@ class WaveMenu extends Component {
   }
 
   handleClip = (e) => {
-    let { context, interval, gain_fraction } = this.state;
+    let { interval, gain_fraction } = this.state;
     let newRate = e.target.value * 2;
 
     if (interval) { clearInterval(interval) }
