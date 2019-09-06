@@ -10,6 +10,6 @@ div.drag-circle {
   border: 1px black solid;
   border-radius: 50%;
   background-color: red;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
 }
