@@ -1,4 +1,4 @@
-const getFrequency = (note) => {
+export const noteToFreq = (note) => {
   let notes = { "A": 0,
                 "A#": 1,
                 "B": 2,
@@ -29,5 +29,5 @@ const getFrequency = (note) => {
   }
 
   // Return frequency of note
-  return 440 * Math.pow(2, (keyNumber - 49) / 12);
+  return 440 * Math.pow(2, (keyNumber - 49) / 12).toFixed(3);
 }
