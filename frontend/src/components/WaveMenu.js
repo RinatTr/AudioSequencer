@@ -122,6 +122,7 @@ class WaveMenu extends Component {
           value={freq}
           min="100"
           max="600"
+          step="0.001"
         />
         Gain {gain}
         <Slider
