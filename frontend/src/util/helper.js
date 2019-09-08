@@ -1,20 +1,21 @@
+export const notes = {  "A": 0,
+                        "A#": 1,
+                        "B": 2,
+                        "C": 3,
+                        "C#": 4,
+                        "D": 5,
+                        "D#": 6,
+                        "E": 7,
+                        "F": 8,
+                        "F#": 9,
+                        "G": 10,
+                        "G#": 11  }
+
 export const noteToFreq = (note) => {
-  let notes = { "A": 0,
-                "A#": 1,
-                "B": 2,
-                "C": 3,
-                "C#": 4,
-                "D": 5,
-                "D#": 6,
-                "E": 7,
-                "F": 8,
-                "F#": 9,
-                "G": 10,
-                "G#": 11 }
   let octave;
   let keyNumber;
 
-  octave = (note.length === 3) ? note[2] : note[1];
+  octave = parseOctave(note);
 
   keyNumber = notes[note.slice(0, -1)]
 
@@ -31,4 +32,16 @@ export const noteToFreq = (note) => {
 export const isInRange = (freqState, mid) => {
   if (!freqState) return false;
   return (freqState > mid - 10 && freqState < mid + 10)
+}
+// C3 - C5
+export const generateNoteArr = (startNote, endNote) => {
+  let octaveStart = parseOctave(startNote)
+  let octaveEnd = parseOctave(endNote)
+  let notesArr = Object.keys(notes);
+  let result = [];
+}
+
+export const parseOctave = (note) => {
+  //pick octave number out of string
+  return (note.length === 3) ? note[2] : note[1]
 }
