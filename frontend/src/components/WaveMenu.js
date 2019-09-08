@@ -3,7 +3,7 @@ import Slider from './Slider.js';
 import Controller from './Controller.js';
 import Key from './Key.js';
 import { initOsc, initGain, valueToFraction } from '../module/helper.js';
-import { noteToFreq } from '../util/helper.js';
+import { noteToFreq, generateNoteArr } from '../util/helper.js';
 
 class WaveMenu extends Component {
   constructor() {
@@ -151,8 +151,8 @@ class WaveMenu extends Component {
         <button onClick={this.toggleType} id="triangle">triangle</button>
       </div>
       <div className="test-wrapper">
-        {notes.map((note, i) => {
-          return <Key note={note} id={i} freqState={this.state.freq} />
+        {generateNoteArr('C3','C5').map((note, i) => {
+          return <Key note={note} key={i} freqState={this.state.freq} />
         })}
       </div>
       </>

@@ -33,12 +33,17 @@ export const isInRange = (freqState, mid) => {
   if (!freqState) return false;
   return (freqState > mid - 10 && freqState < mid + 10)
 }
-// C3 - C5
+
 export const generateNoteArr = (startNote, endNote) => {
   let octaveStart = parseOctave(startNote)
   let octaveEnd = parseOctave(endNote)
   let notesArr = Object.keys(notes);
   let result = [];
+  while (octaveStart <= octaveEnd) {
+    notesArr.forEach(note => result.push(note + octaveStart))
+    octaveStart++;
+  }
+  return result;
 }
 
 export const parseOctave = (note) => {
