@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Slider from './Slider.js';
 import Controller from './Controller.js';
+import Key from './Key.js';
 import { initOsc, initGain, valueToFraction } from '../module/helper.js';
+import { noteToFreq } from '../util/helper.js';
+
 class WaveMenu extends Component {
   constructor() {
     super()
@@ -64,6 +67,7 @@ class WaveMenu extends Component {
   }
 
   handleFrequency = (e) => {
+    if (Math.round(e.target.value) === 440) console.log("HAAAAA")
     this.osc.frequency.value = e.target.value;
     this.osc2.frequency.value = e.target.value/2;
     this.setState({
@@ -105,6 +109,7 @@ class WaveMenu extends Component {
 
   render() {
     let { on, freq, gain, clip_rate } = this.state;
+    let notes = ['G3','A4','D4']
     return (
       <>
       <div className="controller-wrapper">
@@ -120,8 +125,8 @@ class WaveMenu extends Component {
         <Slider
           handleChange={this.handleFrequency}
           value={freq}
-          min="100"
-          max="600"
+          min={noteToFreq('C3')}
+          max={noteToFreq('C5')}
           step="0.001"
         />
         Gain {gain}
@@ -144,6 +149,11 @@ class WaveMenu extends Component {
         <button onClick={this.toggleType} id="sine">sine</button>
         <button onClick={this.toggleType} id="sawtooth">saw</button>
         <button onClick={this.toggleType} id="triangle">triangle</button>
+      </div>
+      <div className="test-wrapper">
+        {notes.map((note, i) => {
+          return <Key note={note} id={i} freqState={this.state.freq} />
+        })}
       </div>
       </>
     )

@@ -14,11 +14,7 @@ export const noteToFreq = (note) => {
   let octave;
   let keyNumber;
 
-  if (note.length === 3) {
-      octave = note[2];
-  } else {
-      octave = note[1];
-  }
+  octave = (note.length === 3) ? note[2] : note[1];
 
   keyNumber = notes[note.slice(0, -1)]
 
@@ -29,5 +25,10 @@ export const noteToFreq = (note) => {
   }
 
   // Return frequency of note
-  return 440 * Math.pow(2, (keyNumber - 49) / 12).toFixed(3);
+  return (440 * Math.pow(2, (keyNumber - 49) / 12)).toFixed(3);
+}
+
+export const isInRange = (freqState, mid) => {
+  if (!freqState) return false;
+  return (freqState > mid - 10 && freqState < mid + 10)
 }
