@@ -108,7 +108,6 @@ class WaveMenu extends Component {
 
   render() {
     let { on, freq, gain, clip_rate } = this.state;
-    let notes = ['G3','A4','D4']
     return (
       <>
       <div className="controller-wrapper">
