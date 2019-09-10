@@ -30,10 +30,9 @@ class Controller extends Component {
   }
 
   render() {
-
     let divStyle = {
-      left: Math.min(this.state.x_pos / 2, 94) + "%",
-      top: Math.min(this.state.y_pos / 2, 94) + "%"
+      left: Math.min(this.state.x_pos / 2, 90) + "%",
+      top: Math.min(this.state.y_pos / 2, 90) + "%"
     }
       return(
         <div  className="drag-area"
