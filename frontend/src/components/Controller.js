@@ -13,6 +13,7 @@ class Controller extends Component {
   }
 
   toggleDrag = (e) => {
+    e.preventDefault();
     this.setState({
       dragging: !this.state.dragging
     })
