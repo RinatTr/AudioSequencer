@@ -9,6 +9,7 @@ class Controller extends Component {
       x_pos: 0,
       y_pos: 0
      }
+     this.areaRef = React.createRef();
   }
 
   toggleDrag = (e) => {
@@ -19,16 +20,17 @@ class Controller extends Component {
 
   handleDrag = (e) => {
     if (this.state.dragging) {
-      //adapt to offset at div height
-      console.log(e.clientX, e.clientY - 22)
+      let t = this.areaRef.current.offsetTop;
+      let l = this.areaRef.current.offsetLeft;
       this.setState({
-        x_pos: e.clientX,
-        y_pos: e.clientY - 22
+        x_pos: e.clientX - l,
+        y_pos: e.clientY - t
       })
     }
   }
 
   render() {
+
     let divStyle = {
       left: Math.min(this.state.x_pos / 2, 94) + "%",
       top: Math.min(this.state.y_pos / 2, 94) + "%"
@@ -36,7 +38,8 @@ class Controller extends Component {
       return(
         <div  className="drag-area"
               onMouseMove={this.handleDrag}
-              onMouseUp={this.toggleDrag} >
+              onMouseUp={this.toggleDrag}
+              ref={this.areaRef} >
           <div className="drag-circle"
                onMouseDown={this.toggleDrag}
                style={divStyle}>
