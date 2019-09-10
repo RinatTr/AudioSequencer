@@ -1,5 +1,5 @@
 div.drag-area {
-  border: 1px black solid;
+  background-color: lightgrey;
   width: 200px;
   height: 200px;
 }
@@ -7,9 +7,9 @@ div.drag-area {
 div.drag-circle {
   position: relative;
   z-index: 2;
-  border: 1px black solid;
+  border: 3px red dashed;
   border-radius: 50%;
-  background-color: red;
+  background-color: whitesmoke;
   width: 15px;
   height: 15px;
 }
