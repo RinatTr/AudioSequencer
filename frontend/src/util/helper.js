@@ -35,14 +35,15 @@ export const isInRange = (freqState, mid) => {
 }
 
 export const generateNoteArr = (startNote, endNote) => {
-  let octaveStart = parseOctave(startNote)
-  let octaveEnd = parseOctave(endNote)
-  let notesArr = Object.keys(notes);
+  let octaveStart = parseOctave(startNote);
+  let octaveEnd = parseOctave(endNote);
+  let notesArr = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
   let result = [];
-  while (octaveStart <= octaveEnd) {
+  while (octaveStart < octaveEnd) {
     notesArr.forEach(note => result.push(note + octaveStart))
     octaveStart++;
   }
+  result.push('C' + octaveEnd);
   return result;
 }
 

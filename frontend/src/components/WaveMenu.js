@@ -67,7 +67,6 @@ class WaveMenu extends Component {
   }
 
   handleFrequency = (e) => {
-    if (Math.round(e.target.value) === 440) console.log("HAAAAA")
     this.osc.frequency.value = e.target.value;
     this.osc2.frequency.value = e.target.value/2;
     this.setState({
@@ -150,7 +149,7 @@ class WaveMenu extends Component {
         <button onClick={this.toggleType} id="sawtooth">saw</button>
         <button onClick={this.toggleType} id="triangle">triangle</button>
       </div>
-      <div className="test-wrapper">
+      <div className="test-wrapper" style={{display: 'flex'}}>
         {generateNoteArr('C3','C5').map((note, i) => {
           return <Key note={note} key={i} freqState={this.state.freq} />
         })}
