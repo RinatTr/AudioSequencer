@@ -51,3 +51,8 @@ export const parseOctave = (note) => {
   //pick octave number out of string
   return (note.length === 3) ? note[2] : note[1]
 }
+
+export const coorToPercent = (coor, coorMax) => {
+  //convert mouse coordinates to percentage out of controller's size
+  return (coor/coorMax) * 100;
+}

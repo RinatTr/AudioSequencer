@@ -3,7 +3,7 @@ import Slider from './Slider.js';
 import Controller from './Controller.js';
 import Key from './Key.js';
 import { initOsc, initGain, valueToFraction } from '../module/helper.js';
-import { noteToFreq, generateNoteArr } from '../util/helper.js';
+import { noteToFreq, generateNoteArr, coorToPercent } from '../util/helper.js';
 
 class WaveMenu extends Component {
   constructor() {
@@ -66,11 +66,19 @@ class WaveMenu extends Component {
     })
   }
 
-  handleFrequency = (e) => {
-    this.osc.frequency.value = e.target.value;
-    this.osc2.frequency.value = e.target.value/2;
+  handleFrequency = (e, y, w) => {
+    let newVal, newVal2;
+    if (!e) {
+      let high = noteToFreq('C5');
+      newVal = (coorToPercent(y, w) * high / 100).toFixed(3);
+    } else {
+      newVal = e.target.value;
+    }
+    newVal2 = newVal / 2
+    this.osc.frequency.value = newVal;
+    this.osc2.frequency.value = newVal2;
     this.setState({
-      freq: e.target.value
+      freq: newVal
     })
   }
 
@@ -117,7 +125,7 @@ class WaveMenu extends Component {
           onClick={this.toggleOnOff}
         >{on ? "on" : "off"}</button>
       </div>
-      <Controller />
+      <Controller handleChange={this.handleFrequency}/>
       <div className="slide-wrapper">
         Frequency {freq}
         <Slider

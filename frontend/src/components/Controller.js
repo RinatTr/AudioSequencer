@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import '../css/Controller.css';
 
 class Controller extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       dragging: false,
       x_pos: 0,
@@ -23,10 +23,11 @@ class Controller extends Component {
     if (this.state.dragging) {
       let t = this.areaRef.current.offsetTop;
       let l = this.areaRef.current.offsetLeft;
+      let w = this.areaRef.current.offsetWidth;
       this.setState({
         x_pos: e.clientX - l,
         y_pos: e.clientY - t
-      })
+      }, this.props.handleChange(null, this.state.y_pos, w))
     }
   }
 
