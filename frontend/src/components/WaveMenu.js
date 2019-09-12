@@ -3,7 +3,7 @@ import Slider from './Slider.js';
 import Controller from './Controller.js';
 import Key from './Key.js';
 import { initOsc, initGain, valueToFraction } from '../module/helper.js';
-import { noteToFreq, generateNoteArr, coorToPercent } from '../util/helper.js';
+import { noteToFreq, generateNoteArr, coorToPercent, flipPercent } from '../util/helper.js';
 
 class WaveMenu extends Component {
   constructor() {
@@ -70,7 +70,7 @@ class WaveMenu extends Component {
     let newVal, newVal2;
     if (!e) {
       let high = noteToFreq('C5');
-      newVal = (coorToPercent(y, w) * high / 100).toFixed(3);
+      newVal = (flipPercent(coorToPercent(y, w)) * high / 100).toFixed(3);
     } else {
       newVal = e.target.value;
     }

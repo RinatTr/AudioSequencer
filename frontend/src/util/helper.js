@@ -56,3 +56,7 @@ export const coorToPercent = (coor, coorMax) => {
   //convert mouse coordinates to percentage out of controller's size
   return (coor/coorMax) * 100;
 }
+
+export const flipPercent = (percent) => {
+  return Math.abs(percent - 100)
+}
