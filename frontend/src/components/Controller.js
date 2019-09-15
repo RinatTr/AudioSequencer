@@ -27,7 +27,8 @@ class Controller extends Component {
       this.setState({
         x_pos: e.clientX - l,
         y_pos: e.clientY - t
-      }, this.props.handleChange(null, this.state.y_pos, w))
+      }, () => {  this.props.handleChangeY(null, w, this.state.y_pos)
+                  this.props.handleChangeX(null, w, this.state.x_pos) })
     }
   }
 

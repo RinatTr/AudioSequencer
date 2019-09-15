@@ -66,7 +66,7 @@ class WaveMenu extends Component {
     })
   }
 
-  handleFrequency = (e, y, w) => {
+  handleFrequency = (e, w, y) => {
     let newVal, newVal2;
     if (!e) {
       let high = noteToFreq('C5');
@@ -91,10 +91,9 @@ class WaveMenu extends Component {
     })
   }
 
-  handleClip = (e) => {
+  handleClip = (e, w, x) => {
     let { interval } = this.state;
-    let newRate = e.target.value * 2;
-
+    let newVal = e ? e.target.value * 2 : (coorToPercent(x, w) * 2);
     if (interval) { clearInterval(interval) }
     const connect = () => {
       this.gain.gain.value = valueToFraction(this.state.gain);
@@ -103,15 +102,13 @@ class WaveMenu extends Component {
     const clip = () => {
       this.gain.gain.value = 0;
       this.gain2.gain.value = 0;
-      setTimeout(connect, newRate)
+      setTimeout(connect, newVal)
     }
-
-    let startInterval = setInterval(clip, newRate * 2)
+    let startInterval = setInterval(clip, newVal * 2)
     this.setState({
       interval: startInterval,
-      clip_rate: newRate / 2
+      clip_rate: newVal / 2
     })
-
   }
 
   render() {
@@ -125,7 +122,8 @@ class WaveMenu extends Component {
           onClick={this.toggleOnOff}
         >{on ? "on" : "off"}</button>
       </div>
-      <Controller handleChange={this.handleFrequency}/>
+      <Controller handleChangeY={this.handleFrequency}
+                  handleChangeX={this.handleClip}/>
       <div className="slide-wrapper">
         Frequency {freq}
         <Slider
