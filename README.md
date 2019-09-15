@@ -2,7 +2,9 @@
 Simple audio sequencer built with React and Web Audio API
 
 ##TODO
-// re-draw circle with drag
+// on / off button listener at WaveMenu
+// connect X axis to clipper 
+
 // cb function for controller
 // on-off light
 // break down WaveMenu component
