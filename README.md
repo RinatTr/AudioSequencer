@@ -4,7 +4,7 @@ Simple audio sequencer built with React and Web Audio API (work in progress).
 ## Instructions
 Clone this repo, and inside the repo folder run:
 1. `$ npm i`
-2. `$ npm start`
+2. cd into frontend folder, and run `$ npm start`
 
 ## TODO
 [] cb function for controller
