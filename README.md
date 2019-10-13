@@ -1,12 +1,16 @@
 # AudioSequencer
-Simple audio sequencer built with React and Web Audio API
+Simple audio sequencer built with React and Web Audio API (work in progress).
+
+## Instructions
+Clone this repo, and inside the repo folder run:
+1. `$ npm i`
+2. `$ npm start`
 
 ## TODO
-// re-draw circle with drag
-// cb function for controller
-// on-off light
-// break down WaveMenu component
-// spectrum visualization
+[] cb function for controller
+[] on-off light
+[] break down WaveMenu component
+[] refactor visualization
 
 //Update: there is no way to tell in chrome if an audionode is connected. hence need to change the clipper function to update the gain instead of connecting and disconnecting the node continuously.
 
