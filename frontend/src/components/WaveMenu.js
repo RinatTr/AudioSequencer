@@ -14,6 +14,7 @@ class WaveMenu extends Component {
       gain: 1,
       clip_rate: 500,
       on: false,
+      clip_on: false,
       start: false,
       context: "",
       interval: ""
@@ -66,19 +67,24 @@ class WaveMenu extends Component {
     })
   }
 
+  toggleClip = () => {
+    if (this.state.interval) { clearInterval(this.state.interval) }
+    this.setState({clip_on: !this.state.clip_on})
+  }
+
   handleFrequency = (e, w, y) => {
-    let newVal, newVal2;
+    let hertz, hertz2;
     if (!e) {
-      let high = noteToFreq('C5');
-      newVal = (flipPercent(coorToPercent(y, w)) * high / 100).toFixed(3);
+      let high_hz = noteToFreq('C5');
+      hertz = (flipPercent(coorToPercent(y, w)) * high_hz / 100).toFixed(3);
     } else {
-      newVal = e.target.value;
+      hertz = e.target.value;
     }
-    newVal2 = newVal / 2
-    this.osc.frequency.value = newVal;
-    this.osc2.frequency.value = newVal2;
+    hertz2 = hertz / 2
+    this.osc.frequency.value = hertz;
+    this.osc2.frequency.value = hertz2;
     this.setState({
-      freq: newVal
+      freq: hertz
     })
   }
 
@@ -93,8 +99,8 @@ class WaveMenu extends Component {
 
   handleClip = (e, w, x) => {
     // let { interval } = this.state;
-    let newVal = e ? e.target.value * 2 : (coorToPercent(x, w) * 2);
-    // if (this.state.interval) { clearInterval(this.state.interval) }
+    let milisecs = e ? e.target.value * 2 : (coorToPercent(x, w) * 2);
+    if (this.state.interval) { clearInterval(this.state.interval) }
     const connect = () => {
       this.gain.gain.value = valueToFraction(this.state.gain);
       this.gain2.gain.value = valueToFraction(this.state.gain);
@@ -102,17 +108,17 @@ class WaveMenu extends Component {
     const clip = () => {
       this.gain.gain.value = 0;
       this.gain2.gain.value = 0;
-      setTimeout(connect, newVal)
+      setTimeout(connect, milisecs)
     }
-    let startInterval = setInterval(clip, newVal * 2)
+    let startInterval = setInterval(clip, milisecs * 2)
     this.setState({
       interval: startInterval,
-      clip_rate: newVal / 2
+      clip_rate: milisecs / 2
     })
   }
 
   render() {
-    let { on, freq, gain, clip_rate } = this.state;
+    let { on, freq, gain, clip_rate, clip_on } = this.state;
     return (
       <>
       <div className="controller-wrapper">
@@ -148,6 +154,10 @@ class WaveMenu extends Component {
           max="105"
           step="10"
         />
+        <button
+          id="on-off"
+          onClick={this.toggleClip}
+        >{clip_on ? "on" : "off"}</button>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>
