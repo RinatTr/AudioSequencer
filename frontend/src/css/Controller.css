@@ -2,6 +2,8 @@ div.drag-area {
   background-color: lightgrey;
   width: 200px;
   height: 200px;
+  border: 2px dashed whitesmoke;
+  border-radius: 8px;
 }
 
 div.drag-circle {

@@ -92,9 +92,9 @@ class WaveMenu extends Component {
   }
 
   handleClip = (e, w, x) => {
-    let { interval } = this.state;
+    // let { interval } = this.state;
     let newVal = e ? e.target.value * 2 : (coorToPercent(x, w) * 2);
-    if (interval) { clearInterval(interval) }
+    // if (this.state.interval) { clearInterval(this.state.interval) }
     const connect = () => {
       this.gain.gain.value = valueToFraction(this.state.gain);
       this.gain2.gain.value = valueToFraction(this.state.gain);
