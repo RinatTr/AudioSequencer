@@ -1,3 +1,10 @@
 div.App {
     background: darkgray;
 }
+
+div.controller-wrapper {
+    display: inline-block;
+}
+div.test input{
+    transform: rotate(-90deg);
+}

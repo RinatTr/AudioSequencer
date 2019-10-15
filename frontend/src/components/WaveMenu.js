@@ -11,13 +11,14 @@ class WaveMenu extends Component {
     this.state = {
       type: "sine",
       freq: 440,
-      gain: 1,
+      gain: 100,
       clip_rate: 500,
       on: false,
       clip_on: false,
       start: false,
       context: "",
-      interval: ""
+      interval: "",
+      interval_init: () => { }
     }
   }
 
@@ -68,8 +69,16 @@ class WaveMenu extends Component {
   }
 
   toggleClip = () => {
-    if (this.state.interval) { clearInterval(this.state.interval) }
-    this.setState({clip_on: !this.state.clip_on})
+    if (this.state.interval) {
+      if (this.state.clip_on) { 
+        clearInterval(this.state.interval)
+        this.setState({clip_on: !this.state.clip_on})
+       } else {
+        let interval = this.state.interval_init()
+        this.setState({interval,
+                        clip_on: !this.state.clip_on});
+       }
+    }
   }
 
   handleFrequency = (e, w, y) => {
@@ -80,7 +89,7 @@ class WaveMenu extends Component {
     } else {
       hertz = e.target.value;
     }
-    hertz2 = hertz / 2
+    hertz2 = hertz / 2;
     this.osc.frequency.value = hertz;
     this.osc2.frequency.value = hertz2;
     this.setState({
@@ -101,9 +110,10 @@ class WaveMenu extends Component {
     // let { interval } = this.state;
     let milisecs = e ? e.target.value * 2 : (coorToPercent(x, w) * 2);
     if (this.state.interval) { clearInterval(this.state.interval) }
+    let gain_val = valueToFraction(this.state.gain);
     const connect = () => {
-      this.gain.gain.value = valueToFraction(this.state.gain);
-      this.gain2.gain.value = valueToFraction(this.state.gain);
+      this.gain.gain.value = gain_val;
+      this.gain2.gain.value = gain_val;
     }
     const clip = () => {
       this.gain.gain.value = 0;
@@ -113,7 +123,9 @@ class WaveMenu extends Component {
     let startInterval = setInterval(clip, milisecs * 2)
     this.setState({
       interval: startInterval,
-      clip_rate: milisecs / 2
+      interval_init: () => { setInterval(clip, milisecs * 2)},
+      clip_rate: milisecs / 2,
+      clip_on: true
     })
   }
 
@@ -127,18 +139,21 @@ class WaveMenu extends Component {
           onKeyDown={this.toggleOnOff}
           onClick={this.toggleOnOff}
         >{on ? "on" : "off"}</button>
-      </div>
-      <Controller handleChangeY={this.handleFrequency}
-                  handleChangeX={this.handleClip}/>
-      <div className="slide-wrapper">
+      
+        <Controller handleChangeY={this.handleFrequency}
+                    handleChangeX={this.handleClip}/>
         Frequency {freq}
-        <Slider
-          handleChange={this.handleFrequency}
-          value={freq}
-          min={noteToFreq('C3')}
-          max={noteToFreq('C5')}
-          step="0.001"
-        />
+        <div className="test">
+          <Slider
+              handleChange={this.handleFrequency}
+              value={freq}
+              min={noteToFreq('C3')}
+              max={noteToFreq('C5')}
+              step="0.001"
+            />
+        </div>
+      </div>
+      <div className="slide-wrapper">
         Gain {gain}
         <Slider
           handleChange={this.handleGain}
