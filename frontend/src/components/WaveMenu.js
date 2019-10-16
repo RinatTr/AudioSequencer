@@ -14,11 +14,9 @@ class WaveMenu extends Component {
       gain: 100,
       clip_rate: 500,
       on: false,
-      clip_on: false,
       start: false,
       context: "",
-      interval: "",
-      interval_init: () => { }
+      interval: ""
     }
   }
 
@@ -68,17 +66,8 @@ class WaveMenu extends Component {
     })
   }
 
-  toggleClip = () => {
-    if (this.state.interval) {
-      if (this.state.clip_on) { 
-        clearInterval(this.state.interval)
-        this.setState({clip_on: !this.state.clip_on})
-       } else {
-        let interval = this.state.interval_init()
-        this.setState({interval,
-                        clip_on: !this.state.clip_on});
-       }
-    }
+  clearClip = () => {
+    if (this.state.interval) { clearInterval(this.state.interval) }
   }
 
   handleFrequency = (e, w, y) => {
@@ -123,14 +112,12 @@ class WaveMenu extends Component {
     let startInterval = setInterval(clip, milisecs * 2)
     this.setState({
       interval: startInterval,
-      interval_init: () => { setInterval(clip, milisecs * 2)},
-      clip_rate: milisecs / 2,
-      clip_on: true
+      clip_rate: milisecs / 2
     })
   }
 
   render() {
-    let { on, freq, gain, clip_rate, clip_on } = this.state;
+    let { on, freq, gain, clip_rate } = this.state;
     return (
       <>
       <div className="controller-wrapper">
@@ -171,8 +158,8 @@ class WaveMenu extends Component {
         />
         <button
           id="on-off"
-          onClick={this.toggleClip}
-        >{clip_on ? "on" : "off"}</button>
+          onClick={this.clearClip}
+        >clear</button>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>
