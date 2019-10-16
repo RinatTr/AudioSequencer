@@ -4,9 +4,23 @@ div.App {
 
 div.controller-wrapper {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     width: 50vw;
 }
+div.freq-slider {
+    margin-top: 90px;
+    margin-left: -70px;
+    display: flex;
+    flex-direction: column;
+}
 div.freq-slider input{
+    width: 180px;
     transform: rotate(-90deg);
+}
+
+div.freq-slider p {
+    margin-top: 90px;
+}
+div.clip-slider input{
+    width: 180px;
 }

@@ -121,12 +121,6 @@ class WaveMenu extends Component {
     return (
       <>
       <div className="controller-wrapper">
-        <button
-          id="on-off"
-          onKeyDown={this.toggleOnOff}
-          onClick={this.toggleOnOff}
-        >{on ? "on" : "off"}</button>
-      
         <Controller handleChangeY={this.handleFrequency}
                     handleChangeX={this.handleClip}/>
         
@@ -138,7 +132,21 @@ class WaveMenu extends Component {
               max={noteToFreq('C5')}
               step="0.001"
             />
-            Frequency {freq}
+            <p>{freq}Hz</p>
+        </div>
+        <div className="clip-slider">
+          Clipper
+          <Slider
+            handleChange={this.handleClip}
+            value={clip_rate}
+            min="5"
+            max="105"
+            step="10"
+          />
+          <button
+            id="on-off"
+            onClick={this.clearClip}
+          >clear</button>
         </div>
       </div>
       <div className="slide-wrapper">
@@ -149,23 +157,16 @@ class WaveMenu extends Component {
           min="0"
           max="100"
         />
-        Clipper
-        <Slider
-          handleChange={this.handleClip}
-          value={clip_rate}
-          min="5"
-          max="105"
-          step="10"
-        />
-        <button
-          id="on-off"
-          onClick={this.clearClip}
-        >clear</button>
       </div>
       <div className="wavetype-buttons-wrapper">
         <button onClick={this.toggleType} id="sine">sine</button>
         <button onClick={this.toggleType} id="sawtooth">saw</button>
         <button onClick={this.toggleType} id="triangle">triangle</button>
+        <button
+          id="on-off"
+          onKeyDown={this.toggleOnOff}
+          onClick={this.toggleOnOff}
+        >{on ? "on" : "off"}</button>
       </div>
       <div className="test-wrapper" style={{display: 'flex'}}>
         {generateNoteArr('C3','C5').map((note, i) => {
