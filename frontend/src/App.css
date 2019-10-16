@@ -3,8 +3,10 @@ div.App {
 }
 
 div.controller-wrapper {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    width: 50vw;
 }
-div.test input{
+div.freq-slider input{
     transform: rotate(-90deg);
 }

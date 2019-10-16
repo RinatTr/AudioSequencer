@@ -129,8 +129,8 @@ class WaveMenu extends Component {
       
         <Controller handleChangeY={this.handleFrequency}
                     handleChangeX={this.handleClip}/>
-        Frequency {freq}
-        <div className="test">
+        
+        <div className="freq-slider">
           <Slider
               handleChange={this.handleFrequency}
               value={freq}
@@ -138,6 +138,7 @@ class WaveMenu extends Component {
               max={noteToFreq('C5')}
               step="0.001"
             />
+            Frequency {freq}
         </div>
       </div>
       <div className="slide-wrapper">
